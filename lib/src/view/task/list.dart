@@ -1,4 +1,4 @@
-import 'dart:html';
+//import 'dart:html';
 
 import 'package:flutter/material.dart';
 
@@ -6,40 +6,46 @@ import '../../settings/settings_view.dart';
 import '../../model/task/task.dart';
 import './details.dart';
 
+// class TaskListView extends StatefulWidget {
+//   const TaskListView({ Key? key }) : super(key: key);
+
+//   @override
+//   _TaskListViewState createState() => _TaskListViewState();
+// }
+
+// class _TaskListViewState extends State<TaskListView> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+
+//     );
+//   }
+// }
 class TaskListView extends StatelessWidget {
   const TaskListView({
     Key? key,
-    this.items = [Task(title: '1'), Task(title: '2'), Task(title: '3')],
+    required this.items
   }) : super(key: key);
 
-  static const routeName = '/';
-
+  static const routeName = '/tasks';
   final List<Task> items;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sample Items'),
+        title: const Text('All Tasks'),
         actions: [
           IconButton(
             icon: const Icon(Icons.settings),
             onPressed: () {
-              // Navigate to the settings page. If the user leaves and returns
-              // to the app after it has been killed while running in the
-              // background, the navigation stack is restored.
+              // Navigate to the settings page.
               Navigator.restorablePushNamed(context, SettingsView.routeName);
             },
           ),
         ],
       ),
 
-      // To work with lists that may contain a large number of items, it’s best
-      // to use the ListView.builder constructor.
-      //
-      // In contrast to the default ListView constructor, which requires
-      // building all Widgets up front, the ListView.builder constructor lazily
-      // builds Widgets as they’re scrolled into view.
       body: ListView.builder(
         // Providing a restorationId allows the ListView to restore the
         // scroll position when a user leaves and returns to the app after it
@@ -59,9 +65,10 @@ class TaskListView extends StatelessWidget {
                 // Navigate to the details page. If the user leaves and returns to
                 // the app after it has been killed while running in the
                 // background, the navigation stack is restored.
-                Navigator.restorablePushNamed(
+                Navigator.pushNamed(
                   context,
-                  TaskDetailsView.routeName,
+                  "/tasks/${item.id}",
+                    arguments: item.id
                 );
               });
         },
